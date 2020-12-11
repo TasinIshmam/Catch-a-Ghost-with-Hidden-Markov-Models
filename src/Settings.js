@@ -7,10 +7,10 @@ export default class Settings extends React.Component {
         super(props);
 
         this.state = {
-          rows : props.rows,
-          cols: props.cols,
-          distanceMedium: props.distanceMedium,
-          distanceFar: props.distanceFar
+            rows: props.rows,
+            cols: props.cols,
+            distanceMedium: props.distanceMedium,
+            distanceFar: props.distanceFar
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -19,22 +19,29 @@ export default class Settings extends React.Component {
 
     }
 
-    onSubmit  (event) {
+    onSubmit(event) {
         event.preventDefault();
         console.log("On submit debug");
-        
+
         if (this.state.distanceMedium >= this.state.distanceFar) {
             alert("Medium distance must be less than Far Distance");
-        } else {
-            this.props.handleRestartGame(this.state)
+            return;
         }
+
+        if (this.state.rows < this.state.distanceMedium && this.state.cols < this.state.distanceMedium) {
+            alert("Medium distance must greater than one of row or column");
+            return;
+        }
+
+        this.props.handleRestartGame(this.state)
+
     };
 
-    handleInputChange  (event)  {
+    handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-    
+
         this.setState({
             [name]: value
         });
@@ -46,16 +53,16 @@ export default class Settings extends React.Component {
             <form onSubmit={this.onSubmit} className="form-inline" >
                 <div className="form-group">
                     <label htmlFor="rows">Rows: </label>
-                    <input id="rows" name="rows"type="number" min="2" max="10" className="form-control mb-2 mr-sm-2" value={this.state.rows} onChange={this.handleInputChange} />
+                    <input id="rows" name="rows" type="number" min="2" max="10" className="form-control mb-2 mr-sm-2" value={this.state.rows} onChange={this.handleInputChange} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="cols">Cols: </label>
-                    <input id="cols" name="cols" type="number" min="2" max="10" className="form-control mb-2 mr-sm-2" value={this.state.cols} onChange={this.handleInputChange}/>
+                    <input id="cols" name="cols" type="number" min="2" max="10" className="form-control mb-2 mr-sm-2" value={this.state.cols} onChange={this.handleInputChange} />
                 </div>
 
                 <div className="form-group">
                     <label htmlFor="distanceMedium">Medium Distance: </label>
-                    <input id="distanceMedium" name="distanceMedium" type="number" min="2" max="10" className="form-control mb-2 mr-sm-2" value={this.state.distanceMedium} onChange={this.handleInputChange} />
+                    <input id="distanceMedium" name="distanceMedium" type="number" min="1" max="10" className="form-control mb-2 mr-sm-2" value={this.state.distanceMedium} onChange={this.handleInputChange} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="distanceFar">Far Distance: </label>

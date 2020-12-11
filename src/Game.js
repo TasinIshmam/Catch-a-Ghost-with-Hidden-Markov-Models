@@ -1,131 +1,112 @@
 import React from "react";
 import Board from "./Board";
+import {getRandomInt} from "./utils";
 
 export default class Game extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            history: [{
-                squares: Array(9).fill(null),
-                xIsNext: true
-            }],
 
-            currentDisplayedMove: 0,
-            rowsInputTest: props.rows,
+        let boardProbabilities = initializeProbabilityDistribution(props.rows, props.cols);
+        let boardIsClicked = initializeIsClickedBoard(props.rows, props.cols);
+
+        let ghostPosRow = getRandomInt(0, props.rows - 1);
+        let ghostPosCol = getRandomInt(0, props.cols - 1);
+
+        this.state = {
+            boardProbabilities, ghostPosRow, ghostPosCol, boardIsClicked,
+            isGhostFound: false,
+            attempts: 0,
+            movesMade: 0,
+            rows: props.rows,
+            cols: props.cols
         }
     }
+
+    initializeGame = (nextProps) => {
+        let boardProbabilities = initializeProbabilityDistribution(nextProps.rows, nextProps.cols);
+        let boardIsClicked = initializeIsClickedBoard(nextProps.rows, nextProps.cols);
+
+        let ghostPosRow = getRandomInt(0, nextProps.rows - 1);
+        let ghostPosCol = getRandomInt(0, nextProps.cols - 1);
+
+        this.setState({
+            boardProbabilities, ghostPosRow, ghostPosCol, boardIsClicked,
+            isGhostFound: false,
+            attempts: 0,
+            movesMade: 0,
+            rows: nextProps.rows,
+            cols: nextProps.cols
+        })
+    }
+
 
     componentWillReceiveProps(nextProps) {
         console.log("componentWillReceiveProps for Game.js. Nextprops: ", nextProps);
         console.log("State: ", this.state);
+        this.initializeGame(nextProps)
 
-        this.state = {
-            history: [{
-                squares: Array(9).fill(null),
-                xIsNext: true
-            }],
-
-            currentDisplayedMove: 0,
-            rowsInputTest: nextProps.rows,
-        }
     }
 
-    handleClick(i) {
-        const history = this.state.history;
-        const current = history[this.state.currentDisplayedMove];
-        const latestMove = history.length - 1;
-        const squares = current.squares.slice();
-
-        if (calculateWinner(squares) || squares[i] ) {  //winner decided
-            return;
-        }
-
-        if (latestMove !== this.state.currentDisplayedMove) { //in preview mode. Can't click on buttons.
-            return;
-        }
-
-        squares[i] = current.xIsNext ? 'X' : 'O';
-
-        this.setState({
-            history: history.concat([{
-                squares: squares,
-                xIsNext: !current.xIsNext,
-            }]),
-            currentDisplayedMove: this.state.currentDisplayedMove + 1,
-        });
+    handleBoardClick(row, col) {
+        console.log(`Handle click called for ${row},${col}`);
     }
 
-    jumpTo(move) {
-        const history = this.state.history;
-
-        this.setState({
-            history : history,
-            currentDisplayedMove : move
-        })
+    handleAdvanceTime() {
+        console.log("Advance time called");
     }
+
 
     render() {
-        const history = this.state.history;
-        const current = history[this.state.currentDisplayedMove];
-        const winner = calculateWinner(current.squares);
-
-        const moves = history.map((step, move) => {
-            const desc = move ?  //if move is 0 then returns go to game start
-                'Go to move #' + move :
-                'Go to game Start';
-            return (
-                <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
-                </li>
-            );
-        });
-
-        let status;
-
-        if (winner) {
-            status = 'Winner: ' + winner;
-        } else {
-            status = 'Next player: ' + (current.xIsNext ? 'X' : 'O');
-        }
-
-        let currentlyDisplayedMode = this.state.currentDisplayedMove === this.state.history.length - 1 ?
-            `Game current State ${this.state.rowsInputTest}` :
-            `Previewing move ${this.state.currentDisplayedMove}`
-
         return (
             <div className="game">
                 <div className="game-board">
                     <Board
-                        squares={current.squares}  // the curly brackets are to imply that javascript code will go here.
-                        onClick={(i) => this.handleClick(i)}
+                        boardProbabilities={this.state.boardProbabilities}  // the curly brackets are to imply that javascript code will go here
+                        rows = {this.state.rows}
+                        cols = {this.state.cols}
+                        boardIsClicked = {this.state.boardIsClicked}
+                        onClick={(row,col) => this.handleBoardClick(row,col)}
                     />
                 </div>
                 <div className="game-info">
-                    <div>{currentlyDisplayedMode}</div>
-                    <div>{status}</div>
-                    <ol>{moves}</ol>
                 </div>
             </div>
         );
     }
 }
 
-function calculateWinner(squares) {
-    const lines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-        const [a, b, c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
+
+
+
+function initializeProbabilityDistribution(rows, cols) {
+    let ghostBoard = new Array(rows);
+
+    let totalCells = rows * cols;
+    let probabilityEachCell = 100 / totalCells;
+
+    for (let i = 0; i < rows; i++) {
+        ghostBoard[i] = new Array(cols)
+
+        for (let j = 0; j < cols; j++) {
+            ghostBoard[i][j] = +probabilityEachCell.toFixed(2); //crops the number to two digits after decimal.
         }
     }
-    return null;
+
+    return ghostBoard;
+
 }
+
+function initializeIsClickedBoard(rows, cols) {
+    let board = new Array(rows);
+
+    for (let i = 0; i < rows; i++) {
+        board[i] = new Array(cols)
+
+        for (let j = 0; j < cols; j++) {
+            board[i][j] = false;
+        }
+    }
+
+    return board;
+}
+
