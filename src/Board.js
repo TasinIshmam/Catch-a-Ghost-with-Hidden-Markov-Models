@@ -11,6 +11,8 @@ export default class Board extends React.Component {
                 manhattanDistance = {this.props.boardManhattanDistanceArray[row][col]}
                 onClick={() => this.props.onClick(row, col)}
                 key={`${row},${col}`}
+                distanceMedium={this.props.distanceMedium}
+                distanceFar={this.props.distanceFar}
             />
         );
     }

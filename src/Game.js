@@ -20,24 +20,28 @@ export default class Game extends React.Component {
             attempts: 0,
             movesMade: 0,
             rows: props.rows,
-            cols: props.cols
+            cols: props.cols,
+            distanceMedium : props.distanceMedium,
+            distanceFar : props.distanceFar
         }
     }
 
-    initializeGame = (nextProps) => {
-        let boardProbabilities = initializeProbabilityDistribution(nextProps.rows, nextProps.cols);
-        let boardManhattanDistanceArray = initializeBoardManhattanDistanceArray(nextProps.rows, nextProps.cols);
+    initializeGame = (props) => {
+        let boardProbabilities = initializeProbabilityDistribution(props.rows, props.cols);
+        let boardManhattanDistanceArray = initializeBoardManhattanDistanceArray(props.rows, props.cols);
 
-        let ghostPosRow = getRandomInt(0, nextProps.rows - 1);
-        let ghostPosCol = getRandomInt(0, nextProps.cols - 1);
+        let ghostPosRow = getRandomInt(0, props.rows - 1);
+        let ghostPosCol = getRandomInt(0, props.cols - 1);
 
         this.setState({
             boardProbabilities, ghostPosRow, ghostPosCol, boardManhattanDistanceArray,
             isGhostFound: false,
             attempts: 0,
             movesMade: 0,
-            rows: nextProps.rows,
-            cols: nextProps.cols
+            rows: props.rows,
+            cols: props.cols,
+            distanceMedium : props.distanceMedium,
+            distanceFar : props.distanceFar
         })
     }
 
@@ -91,6 +95,8 @@ export default class Game extends React.Component {
                             cols={this.state.cols}
                             boardManhattanDistanceArray={this.state.boardManhattanDistanceArray}
                             onClick={(row, col) => this.handleBoardClick(row, col)}
+                            distanceMedium={this.state.distanceMedium}
+                            distanceFar={this.state.distanceFar}
                         />
                     </div>
                 </div>

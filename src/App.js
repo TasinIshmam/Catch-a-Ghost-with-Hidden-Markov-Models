@@ -9,10 +9,10 @@ export default class App extends React.Component {
         super(props);
 
         this.state = {
-            rows: 3,
-            cols: 3,
+            rows: 7,
+            cols: 7,
             distanceMedium: 2,
-            distanceFar: 4,
+            distanceFar: 3,
             submitClicked: 0
         }
 
