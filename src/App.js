@@ -46,21 +46,13 @@ export default class App extends React.Component {
                     </div>
                 </div>
                 <div className="row main-segment">
-                    <div className="col-12">
+                    <div className="col-12 my-auto">
                         <Game rows={this.state.rows} cols={this.state.cols} distanceMedium={this.state.distanceMedium} distanceFar={this.state.distanceFar} moveSidewaysProb="0.24" moveDiagonalProb="0.01"/>
                     </div>
 
                 </div>
 
-                <div className="row">
-                    <div className="col-12">
-                    </div>
-
-                </div>
-
             </div>
-
-
         )
     }
 }

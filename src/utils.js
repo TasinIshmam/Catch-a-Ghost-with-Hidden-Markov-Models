@@ -14,3 +14,7 @@ export function getRandomInt(min, max) {
     let maxVal = Math.floor(max);
     return Math.floor(Math.random() * (maxVal - minVal + 1)) + minVal;
 }
+
+export function calculateManhattanDistance(row1,col1,row2,col2) {
+    return Math.abs(row1 - row2) + Math.abs(col1 - col2);
+}

@@ -69,7 +69,7 @@ export default class Settings extends React.Component {
                     <input id="distanceFar" name="distanceFar" type="number" min="2" max="10" className="form-control mb-2 mr-sm-2" value={this.state.distanceFar} onChange={this.handleInputChange} />
                 </div>
 
-                <button type="submit" className="btn btn-primary mb-2">Start</button>
+                <button type="submit" className="btn btn-success mb-2">Start</button>
             </form>
 
         )

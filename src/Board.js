@@ -1,15 +1,16 @@
 import React from "react";
-import Square from "./Square";
+import Cell from "./Cell";
 
 export default class Board extends React.Component {
 
 
     renderSquare(row, col) {
         return (
-            <Square
+            <Cell
                 probability={this.props.boardProbabilities[row][col]}
-                isClicked = {this.props.boardIsClicked[row][col]}
+                manhattanDistance = {this.props.boardManhattanDistanceArray[row][col]}
                 onClick={() => this.props.onClick(row, col)}
+                key={`${row},${col}`}
             />
         );
     }
@@ -22,7 +23,7 @@ export default class Board extends React.Component {
         }
 
         return (
-            <div className="board-row">
+            <div className="board-row" key={`ROW ${rowNo}`}>
                 {squares}
             </div>
         )
