@@ -49,7 +49,7 @@ export default class Game extends React.Component {
             displayMessage: "",
             catchMode: false,
             lateralProb: props.lateralProb,
-            diagonalProb: props.diagonalProb
+            diagonalProb: props.diagonalProb,
         })
     }
 
@@ -192,13 +192,23 @@ export default class Game extends React.Component {
 
     render() {
 
-        let gameMode = this.state.catchMode === true ? "Catch Mode" : "Sensor Mode";
+
+        let info = "";
+
+        if (this.state.isGhostFound) {
+            info = this.state.displayMessage || "Ghost has been found";
+
+        } else {
+            info = this.state.catchMode === true ? "Catch Mode" : "Sensor Mode";
+        }
+
+
 
         return (
             <div className="game container vertical-hack">
                 <div className="game-mode row">
                     <div className="col-12">
-                        {gameMode}
+                        {info}
                     </div>
                 </div>
                 <div className="game-board row">
@@ -226,12 +236,6 @@ export default class Game extends React.Component {
 
                 </div>
 
-                <div className="game-info row">
-                    <div className="col-12">
-                        {this.state.displayMessage}
-                    </div>
-
-                </div>
 
             </div>
         );
