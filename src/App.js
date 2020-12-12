@@ -9,8 +9,8 @@ export default class App extends React.Component {
         super(props);
 
         this.state = {
-            rows: 7,
-            cols: 7,
+            rows: 8,
+            cols: 6,
             distanceMedium: 2,
             distanceFar: 3,
             submitClicked: 0
@@ -38,7 +38,7 @@ export default class App extends React.Component {
     render() {
 
         return (
-            <div className="container">
+            <div className="container main-container">
 
                 <div className="row main-segment">
                     <div className="col-12 my-auto">
@@ -47,7 +47,7 @@ export default class App extends React.Component {
                 </div>
                 <div className="row main-segment">
                     <div className="col-12 my-auto">
-                        <Game rows={this.state.rows} cols={this.state.cols} distanceMedium={this.state.distanceMedium} distanceFar={this.state.distanceFar} moveSidewaysProb="0.24" moveDiagonalProb="0.01"/>
+                        <Game rows={this.state.rows} cols={this.state.cols} distanceMedium={this.state.distanceMedium} distanceFar={this.state.distanceFar} lateralProb="0.96" diagonalProb="0.04"/>
                     </div>
 
                 </div>

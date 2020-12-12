@@ -42,16 +42,38 @@ body {
 
   .game {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
   }
   
   .game-info {
-    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .game-board {
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+
+  .game-mode {
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .main-container {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 
   .main-segment {
-    margin-top: 40px;
-    margin-bottom: 40px;
+    margin-top: 20px;
+    margin-bottom: 10px;
   }
 
 .green{
@@ -64,6 +86,16 @@ body {
 
 .red{
   background-color: red;
+}
+
+.div {
+  display : inline-block;
+
+}
+
+.settings-button {
+  width: 100%;
+
 }
 
 /* .container {

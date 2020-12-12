@@ -61,12 +61,12 @@ export default class Settings extends React.Component {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="distanceMedium">Medium Distance: </label>
-                    <input id="distanceMedium" name="distanceMedium" type="number" min="1" max="10" className="form-control mb-2 mr-sm-2" value={this.state.distanceMedium} onChange={this.handleInputChange} />
+                    <label htmlFor="distanceMedium">Medium Start: </label>
+                    <input id="distanceMedium" name="distanceMedium" type="number" min="2" max="10" className="form-control mb-2 mr-sm-2" value={this.state.distanceMedium} onChange={this.handleInputChange} />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="distanceFar">Far Distance: </label>
-                    <input id="distanceFar" name="distanceFar" type="number" min="2" max="10" className="form-control mb-2 mr-sm-2" value={this.state.distanceFar} onChange={this.handleInputChange} />
+                    <label htmlFor="distanceFar">Medium End: </label>
+                    <input id="distanceFar" name="distanceFar" type="number" min="3" max="10" className="form-control mb-2 mr-sm-2" value={this.state.distanceFar} onChange={this.handleInputChange} />
                 </div>
 
                 <button type="submit" className="btn btn-success mb-2">Start</button>
