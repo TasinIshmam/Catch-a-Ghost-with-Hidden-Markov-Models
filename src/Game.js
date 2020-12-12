@@ -26,7 +26,8 @@ export default class Game extends React.Component {
             displayMessage: "",
             catchMode: false,
             lateralProb: props.lateralProb,
-            diagonalProb: props.diagonalProb
+            diagonalProb: props.diagonalProb,
+            stayProb: props.stayProb
         }
     }
 
@@ -50,6 +51,8 @@ export default class Game extends React.Component {
             catchMode: false,
             lateralProb: props.lateralProb,
             diagonalProb: props.diagonalProb,
+            stayProb: props.stayProb
+
         })
     }
 
@@ -132,7 +135,7 @@ export default class Game extends React.Component {
             return;
         }
 
-        let boardProbabilitiesUpdated = updateBoardProbabilitiesBasedonGhostMovement(this.state.boardProbabilities, this.state.lateralProb, this.state.diagonalProb);
+        let boardProbabilitiesUpdated = updateBoardProbabilitiesBasedonGhostMovement(this.state.boardProbabilities, this.state.lateralProb, this.state.diagonalProb, this.state.stayProb);
 
         let boardManhattanDistanceArrayUpdated = initializeBoardManhattanDistanceArray(this.state.rows, this.state.cols);
 
@@ -156,8 +159,12 @@ export default class Game extends React.Component {
 
         let newGhostPos = lateralMoves[0]; //backup safety option
 
-        if (randomProb > this.state.lateralProb) { //go for diagonal move
-            newGhostPos = diagonalMoves[Math.floor(Math.random() * diagonalMoves.length)]; //pick random item from array
+        if (randomProb < this.state.stayProb) { //go for staying.
+
+            newGhostPos = {row: ghostPosRow, col: ghostPosCol}
+        } else if (randomProb < this.state.diagonalProb + this.state.stayProb) { //go for diagonal move
+            //pick random item from array
+            newGhostPos = diagonalMoves[Math.floor(Math.random() * diagonalMoves.length)]; 
         } else { //go for lateral move
             newGhostPos = lateralMoves[Math.floor(Math.random() * lateralMoves.length)];
         }
@@ -357,7 +364,7 @@ function findAllDiagonalMoves(board, row, col) {
 
 }
 
-function updateBoardProbabilitiesBasedonGhostMovement(board, lateral_prob, diagonal_prob) {
+function updateBoardProbabilitiesBasedonGhostMovement(board, lateralMovementProb, diagonalMovementProb, stayInplaceProb) {
     let board_original_copy = JSON.parse(JSON.stringify(board));
 
     for (let row = 0; row < board.length; row++) {
@@ -365,18 +372,16 @@ function updateBoardProbabilitiesBasedonGhostMovement(board, lateral_prob, diago
             let lateralMoves = findAllLateralMoves(board, row, col);
             let diagonalMoves = findAllDiagonalMoves(board, row, col);
 
-            console.log(`Lateral moves for ${row},${col} is ${lateralMoves.length}`);
-            console.log(`Diagonal moves for ${row},${col} is ${diagonalMoves.length}`);
+            // console.log(`Lateral moves for ${row},${col} is ${lateralMoves.length}`);
+            // console.log(`Diagonal moves for ${row},${col} is ${diagonalMoves.length}`);
 
-
-
-            board[row][col] = 0;  //resetting probability
+            board[row][col] = board[row][col] * stayInplaceProb ;  //resetting probability
 
             for (let i = 0; i < lateralMoves.length; i++) {
 
                 let neighbourPos = lateralMoves[i];
 
-                let probEachLateralMove = lateral_prob / findAllLateralMoves(board, neighbourPos.row, neighbourPos.col).length;
+                let probEachLateralMove = lateralMovementProb / findAllLateralMoves(board, neighbourPos.row, neighbourPos.col).length;
 
                 let probOfComingToCellFromNeighbor = board_original_copy[neighbourPos.row][neighbourPos.col] * probEachLateralMove;
                 board[row][col] += probOfComingToCellFromNeighbor;
@@ -387,7 +392,7 @@ function updateBoardProbabilitiesBasedonGhostMovement(board, lateral_prob, diago
 
                 let neighbourPos = diagonalMoves[i];
 
-                let probEachDiagonalMove = diagonal_prob / findAllDiagonalMoves(board, neighbourPos.row, neighbourPos.col).length;
+                let probEachDiagonalMove = diagonalMovementProb / findAllDiagonalMoves(board, neighbourPos.row, neighbourPos.col).length;
 
                 let probOfComingToCellFromNeighbor = board_original_copy[neighbourPos.row][neighbourPos.col] * probEachDiagonalMove;
                 board[row][col] += probOfComingToCellFromNeighbor;
