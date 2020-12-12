@@ -95,7 +95,12 @@ body {
 
 .settings-button {
   width: 100%;
+}
 
+.buttons-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* .container {

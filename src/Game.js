@@ -240,7 +240,6 @@ export default class Game extends React.Component {
                             onClickCatchGhost={() => this.handleCatchGhost()}
                         />
                     </div>
-
                 </div>
 
 

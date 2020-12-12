@@ -9,7 +9,7 @@ export default class App extends React.Component {
         super(props);
 
         this.state = {
-            rows: 8,
+            rows: 6,
             cols: 6,
             distanceMedium: 2,
             distanceFar: 3,
@@ -48,6 +48,13 @@ export default class App extends React.Component {
                 <div className="row main-segment">
                     <div className="col-12 my-auto">
                         <Game rows={this.state.rows} cols={this.state.cols} distanceMedium={this.state.distanceMedium} distanceFar={this.state.distanceFar} lateralProb="0.96" diagonalProb="0.03" stayProb="0.01" />
+                    </div>
+
+                </div>
+
+                <div className="row main-segment">
+                    <div className="col-12 my-auto">
+                        {/* UI design shamelessly <strike>ripped off from</strike> <i>inspired by</i> <a href="https://redwanplague.github.io/ghost-busters/">Redwan's demo</a>. */}
                     </div>
 
                 </div>
