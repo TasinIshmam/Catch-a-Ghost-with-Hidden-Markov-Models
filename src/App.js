@@ -42,12 +42,22 @@ export default class App extends React.Component {
 
                 <div className="row main-segment">
                     <div className="col-12 my-auto">
-                        <Settings rows={this.state.rows} cols={this.state.cols} distanceMedium={this.state.distanceMedium} distanceFar={this.state.distanceFar} handleRestartGame={(settingsData) => this.handleRestartGame(settingsData)} />
+                        <Settings rows={this.state.rows} 
+                        cols={this.state.cols} 
+                        distanceMedium={this.state.distanceMedium} 
+                        distanceFar={this.state.distanceFar} 
+                        handleRestartGame={(settingsData) => this.handleRestartGame(settingsData)} />
                     </div>
                 </div>
                 <div className="row main-segment">
                     <div className="col-12 my-auto">
-                        <Game rows={this.state.rows} cols={this.state.cols} distanceMedium={this.state.distanceMedium} distanceFar={this.state.distanceFar} lateralProb="0.96" diagonalProb="0.03" stayProb="0.01" />
+                        <Game rows={this.state.rows} 
+                        cols={this.state.cols} 
+                        distanceMedium={this.state.distanceMedium} 
+                        distanceFar={this.state.distanceFar} 
+                        lateralProb="0.96" 
+                        diagonalProb="0.03" 
+                        stayProb="0.01" />
                     </div>
 
                 </div>

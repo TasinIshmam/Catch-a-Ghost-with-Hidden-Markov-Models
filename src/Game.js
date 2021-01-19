@@ -74,7 +74,7 @@ export default class Game extends React.Component {
     handleBoardClick(row, col) {
         console.log(`Handle click called for ${row},${col}`);
 
-        if (this.state.isGhostFound) {
+        if (this.state.isGhostFound) { //if ghost detected do not do anything 
             return;
         }
 
@@ -102,8 +102,6 @@ export default class Game extends React.Component {
         let manhattanDistanceArrayCopy = JSON.parse(JSON.stringify(this.state.boardManhattanDistanceArray));
         manhattanDistanceArrayCopy[row][col] = manhattanDistance;
 
-        let noGhostLowerBound = 0;
-        let noGhostUpperBound = 0;
 
         let boardProbabilitiesUpdated = this.state.boardProbabilities;
 
@@ -112,13 +110,11 @@ export default class Game extends React.Component {
         } else if (manhattanDistance >= this.state.distanceMedium && manhattanDistance <= this.state.distanceFar) {
             boardProbabilitiesUpdated = updateProbabilitiesBasedOnSensorReadingOrange(this.state.boardProbabilities, row, col, this.state.distanceMedium, this.state.distanceFar);
         } else {
-            //TODO handling that one weird corner case which leads to NAN
             boardProbabilitiesUpdated = updateProbabilitiesBasedOnSensorReadingRed(this.state.boardProbabilities, row, col, this.state.distanceMedium - 1);
         }
 
 
         boardProbabilitiesUpdated = normalizeBoardProbabilities(boardProbabilitiesUpdated);
-        //todo update probability distribution
 
         this.setState({
             boardManhattanDistanceArray: manhattanDistanceArrayCopy,
@@ -210,9 +206,8 @@ export default class Game extends React.Component {
         }
 
 
-
         return (
-            <div className="game container vertical-hack">
+            <div className="game container">
                 <div className="game-mode row">
                     <div className="col-12">
                         {info}
